@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/shared/components/conistants.dart';
+import 'package:todo/shared/cubit/bloc_observer.dart';
 import 'package:todo/shared/cubit/cubit.dart';
 import 'package:todo/shared/cubit/states.dart';
 import 'package:todo/shared/network/local/cache_helper.dart';
 import 'layout/layout.dart';
-import 'shared/cubit/bloc_observer.dart';
+
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();

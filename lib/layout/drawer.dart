@@ -1,8 +1,5 @@
 import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:todo/modules/addtask/add_task.dart';
 import 'package:todo/modules/trash/trash.dart';
 import 'package:todo/shared/components/components.dart';
