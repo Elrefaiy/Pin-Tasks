@@ -1,9 +1,10 @@
-import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:todo/modules/archivedtasks/archivedtasks.dart';
-import 'package:todo/modules/todotasks/todotasks.dart';
+import 'package:todo/modules/calendar/calendar.dart';
+import 'package:todo/modules/dashboard/dashboard.dart';
+import 'package:todo/modules/home/home.dart';
+import 'package:todo/modules/settings/settings.dart';
 import 'package:todo/shared/cubit/states.dart';
 import 'package:todo/shared/network/local/cache_helper.dart';
 
@@ -20,13 +21,17 @@ class AppCubit extends Cubit<AppStates> {
   List<Map> trash = [];
 
   List<String> myTitle = [
-    'Todo',
-    'Archived',
+    'Home',
+    'Calendar',
+    'Dashboard',
+    'Settings',
   ];
 
   List<Widget> screen = [
-    TodoTasks(),
-    ArchivedTasks(),
+    HomeScreen(),
+    CalendarScreen(),
+    DashboardScreen(),
+    SettingsScreen(),
   ];
 
   List<String> colors = [
@@ -42,6 +47,21 @@ class AppCubit extends Cubit<AppStates> {
     '#dbdbdb',
     '#83a88a',
   ];
+
+  bool isDark = true;
+  void changeMode({bool mode}) {
+    if (mode != null) {
+      isDark = mode;
+      emit(ChangeModeState());
+    } else {
+      isDark = !isDark;
+      CacheHelper.putData(key: 'isDark', value: isDark).then(
+            (value) {
+          emit(ChangeModeState());
+        },
+      );
+    }
+  }
 
   void changeIndex(int index) {
     currentIndex = index;
@@ -95,6 +115,7 @@ class AppCubit extends Cubit<AppStates> {
               'INSERT INTO tasks (title, body, date, time, color, status) VALUES ("$title","$body", "$date", "$time", "$color", "new")')
           .then((value) {
         print('$value Inserted Successfully');
+        print('#######new tasks: $newTasks');
         emit(InsertToDatabaseState());
         getData(database);
       }).catchError((error) =>
@@ -128,13 +149,36 @@ class AppCubit extends Cubit<AppStates> {
 
   void updateData({
     @required String status,
-    @required int id}) async {
+    @required int id
+  }) async {
     await database.rawUpdate('UPDATE tasks SET status = ? WHERE id = ?',
         ['$status', id]).then((value) {
       getData(database);
       emit(UpdateDataState());
     });
   }
+
+  // void updateTaskStatus({
+  //   @required String status,
+  //   @required int id
+  // }) async {
+  //   await database.rawUpdate('UPDATE tasks SET status = ? WHERE id = ?',
+  //       ['$status', id]).then((value) {
+  //     getData(database);
+  //     emit(UpdateDataState());
+  //   });
+  // }
+  //
+  // void updateTask({
+  //   @required String status,
+  //   @required int id
+  // }) async {
+  //   await database.rawUpdate('UPDATE tasks SET status = ? WHERE id = ?',
+  //       ['$status', id]).then((value) {
+  //     getData(database);
+  //     emit(UpdateDataState());
+  //   });
+  // }
 
   void deleteData({@required int id}) async {
     await database
@@ -144,22 +188,5 @@ class AppCubit extends Cubit<AppStates> {
       emit(DeleteDataState());
     });
   }
-
-  bool isDark = true;
-
-  void changeMode({bool mode}) {
-    if (mode != null) {
-      isDark = mode;
-      emit(ChangeModeState());
-    } else {
-      isDark = !isDark;
-      CacheHelper.putData(key: 'isDark', value: isDark).then(
-        (value) {
-          emit(ChangeModeState());
-        },
-      );
-    }
-  }
-
 
 }

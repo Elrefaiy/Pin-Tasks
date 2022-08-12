@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 ThemeData lightTheme() => ThemeData(
-  primaryColor: Colors.amber[700],
-  scaffoldBackgroundColor: Colors.white,
+  primaryColor: Colors.blue,
+  scaffoldBackgroundColor: Colors.grey[100],
   appBarTheme: AppBarTheme(
     systemOverlayStyle: SystemUiOverlayStyle(
-        statusBarColor: Colors.white,
+        statusBarColor: Colors.grey[100],
         statusBarIconBrightness: Brightness.dark,
     ),
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.grey[100],
     elevation: 0,
     titleSpacing: 0,
     iconTheme: IconThemeData(
-      color: Colors.amber[700],
-    ),
+    color: Colors.grey.withOpacity(.5),
+  ),
   ),
   textTheme: TextTheme(
     headline1: TextStyle(
@@ -29,21 +29,10 @@ ThemeData lightTheme() => ThemeData(
       color: Colors.black,
     ),
   ),
-  floatingActionButtonTheme: FloatingActionButtonThemeData(
-    backgroundColor: Colors.white,
-    elevation: 4,
-    highlightElevation: 0,
-  ),
-  bottomNavigationBarTheme: BottomNavigationBarThemeData(
-    backgroundColor: Colors.white,
-    unselectedItemColor: Colors.grey,
-    selectedItemColor: Colors.amber[700],
-    elevation: 30,
-  ),
 );
 
 ThemeData darkTheme() => ThemeData(
-  primaryColor: Colors.amber[700],
+  primaryColor: Colors.blue,
   scaffoldBackgroundColor: Colors.grey[900],
   appBarTheme: AppBarTheme(
     systemOverlayStyle: SystemUiOverlayStyle(
@@ -54,7 +43,7 @@ ThemeData darkTheme() => ThemeData(
     elevation: 0,
     titleSpacing: 0,
     iconTheme: IconThemeData(
-      color: Colors.amber[700],
+      color: Colors.grey,
     ),
   ),
   textTheme: TextTheme(
@@ -70,16 +59,4 @@ ThemeData darkTheme() => ThemeData(
       color: Colors.white,
     ),
   ),
-  floatingActionButtonTheme: FloatingActionButtonThemeData(
-    backgroundColor: Colors.grey[800],
-    elevation: 4,
-    highlightElevation: 0,
-  ),
-  bottomNavigationBarTheme: BottomNavigationBarThemeData(
-    backgroundColor: Colors.grey[850],
-    unselectedItemColor: Colors.grey,
-    selectedItemColor: Colors.amber[700],
-    elevation: 30,
-  ),
-
 );

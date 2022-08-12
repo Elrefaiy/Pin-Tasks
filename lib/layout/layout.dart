@@ -18,37 +18,92 @@ class Home extends StatelessWidget {
         AppCubit cubit = AppCubit.get(context);
         return Scaffold(
           appBar: AppBar(
-            title: Text(cubit.myTitle[cubit.currentIndex], style: Theme.of(context).textTheme.headline1,),
+            centerTitle: true,
+            title: Text(
+              cubit.myTitle[cubit.currentIndex],
+              style: Theme.of(context).textTheme.headline1,
+            ),
           ),
           drawer: AppDrawer(),
           body: cubit.screen[cubit.currentIndex],
-
-          floatingActionButton: FloatingActionButton(
-            child: Icon(Icons.add_rounded, size: 37, color: Colors.amber[700],),
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> AddTask()));
-            },
-          ),
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-          bottomNavigationBar: BottomNavigationBar(
-
-            type: BottomNavigationBarType.fixed,
-            currentIndex: cubit.currentIndex,
-            items: [
-              BottomNavigationBarItem(
-                icon: Icon(Icons.list),
-                label: 'Todo Tasks',
-                activeIcon: Icon(Icons.menu_rounded)
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.archive_outlined),
-                label: 'Archived Tasks',
-                activeIcon: Icon(Icons.archive)
-              ),
-            ],
-            onTap: (index) {
-              cubit.changeIndex(index);
-            },
+          bottomNavigationBar: Container(
+            padding: EdgeInsets.symmetric(vertical: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Expanded(
+                  child: IconButton(
+                    onPressed: (){
+                      AppCubit.get(context).changeIndex(0);
+                    },
+                    icon: Icon(
+                      Icons.grid_view,
+                      color: AppCubit.get(context).currentIndex == 0
+                          ? Colors.blue
+                          : Colors.grey.withOpacity(.5),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: IconButton(
+                    onPressed: () {
+                      AppCubit.get(context).changeIndex(1);
+                    },
+                    icon: Icon(
+                      Icons.calendar_today_outlined,
+                      color: AppCubit.get(context).currentIndex == 1
+                          ? Colors.blue
+                          : Colors.grey.withOpacity(.5),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: CircleAvatar(
+                    backgroundColor: Colors.blue,
+                    child: IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder:
+                              (context)=> AddTask(),
+                          ),
+                        );
+                      },
+                      icon: Icon(
+                        Icons.add,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: IconButton(
+                    onPressed: () {
+                      AppCubit.get(context).changeIndex(2);
+                    },
+                    icon: Icon(
+                      Icons.data_usage_sharp,
+                      color: AppCubit.get(context).currentIndex == 2
+                          ? Colors.blue
+                          : Colors.grey.withOpacity(.5),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: IconButton(
+                    onPressed: () {
+                      AppCubit.get(context).changeIndex(3);
+                    },
+                    icon: Icon(
+                      Icons.settings_outlined,
+                      color: AppCubit.get(context).currentIndex == 3
+                          ? Colors.blue
+                          : Colors.grey.withOpacity(.5),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },

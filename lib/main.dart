@@ -7,7 +7,6 @@ import 'package:todo/shared/cubit/states.dart';
 import 'package:todo/shared/network/local/cache_helper.dart';
 import 'layout/layout.dart';
 
-
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = MyBlocObserver();
