@@ -115,7 +115,6 @@ class AppCubit extends Cubit<AppStates> {
               'INSERT INTO tasks (title, body, date, time, color, status) VALUES ("$title","$body", "$date", "$time", "$color", "new")')
           .then((value) {
         print('$value Inserted Successfully');
-        print('#######new tasks: $newTasks');
         emit(InsertToDatabaseState());
         getData(database);
       }).catchError((error) =>
