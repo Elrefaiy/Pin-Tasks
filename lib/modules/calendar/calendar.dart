@@ -5,23 +5,36 @@ class CalendarScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: SfCalendar(
-        view: CalendarView.month,
-        headerStyle: CalendarHeaderStyle(
-          textAlign: TextAlign.center,
-          textStyle: Theme.of(context).textTheme.bodyText1,
-          backgroundColor: Colors.blue.withOpacity(.1)
+    return Column(
+      children: [
+        Expanded(
+          child: SfCalendar(
+            monthViewSettings: MonthViewSettings(
+              monthCellStyle: MonthCellStyle(
+                textStyle: Theme.of(context).textTheme.bodyText1.copyWith(
+                  fontSize: 16,
+                ),
+                backgroundColor: Colors.grey.withOpacity(.1,),
+              ),
+              appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
+            ),
+            view: CalendarView.month,
+            headerStyle: CalendarHeaderStyle(
+                textAlign: TextAlign.center,
+                textStyle: Theme.of(context).textTheme.bodyText1,
+                backgroundColor: Colors.blue.withOpacity(.1)
+            ),
+            viewHeaderStyle: ViewHeaderStyle(
+              dayTextStyle: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 14),
+            ),
+            onTap: (calendar){
+              print(calendar.date);
+            },
+            firstDayOfWeek: 6,
+            dataSource: TasksDataSource(getAppointments()),
+          ),
         ),
-        viewHeaderStyle: ViewHeaderStyle(
-          dayTextStyle: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 14),
-        ),
-        onTap: (calendar){
-          print(calendar.date);
-        },
-        firstDayOfWeek: 6,
-        dataSource: TasksDataSource(getAppointments()),
-      ),
+      ],
     );
   }
 }
@@ -35,19 +48,34 @@ List<Appointment> getAppointments(){
     Appointment(
       startTime: startTime,
       endTime: endTime,
-      subject: startTime.toString(),
+      subject: 'Hello Neighbour',
       color: Colors.grey,
     ),
   );
   tasks.add(
     Appointment(
-      startTime: DateTime(today.year, today.month, today.day, 15, 0, 0),
-      endTime: startTime.add(Duration(hours: 5)),
-      subject: startTime.toString(),
-      color: Colors.grey,
+      startTime: startTime,
+      endTime: endTime,
+      subject: 'Hello Neighbour',
+      color: Colors.redAccent,
     ),
   );
-
+  tasks.add(
+    Appointment(
+      startTime: startTime,
+      endTime: endTime,
+      subject: 'Hello Neighbour',
+      color: Colors.redAccent,
+    ),
+  );
+  tasks.add(
+    Appointment(
+      startTime: startTime,
+      endTime: endTime,
+      subject: 'Hello Neighbour',
+      color: Colors.yellow,
+    ),
+  );
   return tasks;
 }
 

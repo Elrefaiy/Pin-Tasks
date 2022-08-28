@@ -107,19 +107,9 @@ class AppDrawer extends StatelessWidget {
                     label: 'Todo Tasks',
                   ),
                   Spacer(),
-                  CircleAvatar(
-                    backgroundColor: AppCubit.get(context).isDark
-                        ?Colors.white : Colors.grey[700],
-                    radius: 10,
-                    child: Text(
-                      AppCubit.get(context).newTasks.length.toString(),
-                      style: TextStyle(
-                        color: AppCubit.get(context).isDark
-                            ? Colors.grey[900]
-                            : Colors.white,
-                        fontSize: 18,
-                      ),
-                    ),
+                  Text(
+                    AppCubit.get(context).newTasks.length.toString(),
+                    style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 16)
                   ),
                   SizedBox(width: 40,),
                 ],
@@ -141,19 +131,9 @@ class AppDrawer extends StatelessWidget {
                     label: 'Done Tasks',
                   ),
                   Spacer(),
-                  CircleAvatar(
-                    backgroundColor: AppCubit.get(context).isDark
-                        ?Colors.white : Colors.grey[700],
-                    radius: 10,
-                    child: Text(
-                      AppCubit.get(context).trash.length.toString(),
-                      style: TextStyle(
-                        color: AppCubit.get(context).isDark
-                            ? Colors.grey[900]
-                            : Colors.white,
-                        fontSize: 18,
-                      ),
-                    ),
+                  Text(
+                    AppCubit.get(context).trash.length.toString(),
+                    style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 16),
                   ),
                   SizedBox(width: 40,),
                 ],
@@ -175,19 +155,9 @@ class AppDrawer extends StatelessWidget {
                     label: 'Archived Tasks',
                   ),
                   Spacer(),
-                  CircleAvatar(
-                    backgroundColor: AppCubit.get(context).isDark
-                        ?Colors.white : Colors.grey[700],
-                    radius: 10,
-                    child: Text(
-                      AppCubit.get(context).archivedTasks.length.toString(),
-                      style: TextStyle(
-                        color: AppCubit.get(context).isDark
-                            ? Colors.grey[900]
-                            : Colors.white,
-                        fontSize: 18,
-                      ),
-                    ),
+                  Text(
+                    AppCubit.get(context).archivedTasks.length.toString(),
+                    style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 16),
                   ),
                   SizedBox(width: 40,),
                 ],

@@ -35,17 +35,17 @@ class AppCubit extends Cubit<AppStates> {
   ];
 
   List<String> colors = [
-    '#faa466',
-    '#D8E79D',
-    '#6183cf',
-    '#eb9696',
-    '#9696eb',
-    '#96ebe7',
-    '#ffff78',
-    '#eb96e4',
-    '#ADD8D0',
-    '#dbdbdb',
-    '#83a88a',
+    '#faa466', //color
+    '#D8E79D', //color
+    '#6183cf', //color
+    '#eb9696', //color
+    '#9696eb', //color
+    '#96ebe7', //color
+    '#ffff78', //color
+    '#eb96e4', //color
+    '#ADD8D0', //color
+    '#dbdbdb', //color
+    '#83a88a', //color
   ];
 
   bool isDark = true;
@@ -85,7 +85,7 @@ class AppCubit extends Cubit<AppStates> {
         print('database created');
         database
             .execute(
-                'CREATE TABLE tasks (id INTEGER PRIMARY KEY, title TEXT, body TEXT,date TEXT, time TEXT, color TEXT, status TEXT)')
+                'CREATE TABLE tasks (id INTEGER PRIMARY KEY, title TEXT, body TEXT,date TEXT, time TEXT, color TEXT, status TEXT, currentStatus TEXT)')
             .then((value) {
           print('table created');
         }).catchError((error) {
@@ -112,7 +112,7 @@ class AppCubit extends Cubit<AppStates> {
     await database.transaction((txn) {
       txn
           .rawInsert(
-              'INSERT INTO tasks (title, body, date, time, color, status) VALUES ("$title","$body", "$date", "$time", "$color", "new")')
+              'INSERT INTO tasks (title, body, date, time, color, status, currentStatus) VALUES ("$title","$body", "$date", "$time", "$color", "new", "Scheduled")')
           .then((value) {
         print('$value Inserted Successfully');
         emit(InsertToDatabaseState());

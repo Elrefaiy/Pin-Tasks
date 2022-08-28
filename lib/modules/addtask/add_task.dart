@@ -6,16 +6,18 @@ import 'package:todo/shared/components/components.dart';
 import 'package:todo/shared/cubit/cubit.dart';
 import 'package:todo/shared/cubit/states.dart';
 
+var titleController = TextEditingController();
+var bodyController = TextEditingController();
+var timeController = TextEditingController();
+var dateController = TextEditingController();
+
 class AddTask extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
 
     var cubit = AppCubit.get(context);
     var formKey = GlobalKey<FormState>();
-    var titleController = TextEditingController();
-    var bodyController = TextEditingController();
-    var timeController = TextEditingController();
-    var dateController = TextEditingController();
 
     Widget colorSelectBuilder(String color, int index, context)=> InkWell(
       onTap: (){
@@ -31,7 +33,7 @@ class AddTask extends StatelessWidget {
               height: 60,
             ),
             if(index == AppCubit.get(context).selectedColor)
-              Icon(Icons.done, size: 30,)
+              Icon(Icons.done, size: 30, color: Colors.black.withOpacity(0.7),)
           ]),
     );
 
@@ -57,7 +59,7 @@ class AddTask extends StatelessWidget {
                     Container(
                       height: 40,
                       child: TextFormField(
-                        cursorColor: Colors.amber[700],
+                        cursorColor: Colors.blue,
                         style: Theme.of(context).textTheme.headline1.copyWith(fontSize: 20, fontWeight: FontWeight.w700),
                         controller: titleController,
                         maxLines: 1,
@@ -73,11 +75,11 @@ class AddTask extends StatelessWidget {
                     ),
                     Container(
                       child: TextFormField(
-                        cursorColor: Colors.amber[700],
+                        cursorColor: Colors.blue,
                         style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 14),
                         controller: bodyController,
                         keyboardType: TextInputType.multiline,
-                        maxLines: 8,
+                        maxLines: 18,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderSide: BorderSide.none,
@@ -102,11 +104,11 @@ class AddTask extends StatelessWidget {
                               return Theme(
                                 data: ThemeData.light().copyWith(
                                   timePickerTheme: TimePickerThemeData(backgroundColor: Colors.white),
-                                  primaryColor: Colors.amber[700],
+                                  primaryColor: Colors.blue,
                                   buttonTheme: ButtonThemeData(
                                       textTheme: ButtonTextTheme.primary
                                   ),
-                                  colorScheme: ColorScheme.light(primary:Colors.amber[700]).copyWith(secondary: Colors.amber[700]),
+                                  colorScheme: ColorScheme.light(primary:Colors.blue).copyWith(secondary: Colors.blue),
                                 ),
                                 child: child,
                               );
@@ -131,9 +133,9 @@ class AddTask extends StatelessWidget {
                               return Theme(
                                 data: ThemeData.dark().copyWith(
                                   colorScheme: ColorScheme.light(
-                                    primary: Colors.amber[700],
+                                    primary: Colors.blue,
                                     onPrimary: Colors.white,
-                                    surface: Colors.amber[700],
+                                    surface: Colors.blue,
                                     onSurface: Colors.black,
                                   ),
                                   dialogBackgroundColor:Colors.white,
@@ -155,10 +157,10 @@ class AddTask extends StatelessWidget {
             ),
           ),
           floatingActionButton: FloatingActionButton(
+            mini: true,
             child: Icon(
               Icons.done,
-              size: 37,
-              color: Colors.amber[700],
+              size: 25,
             ),
             onPressed: () {
                 cubit.insertToDatabase(
@@ -168,13 +170,18 @@ class AddTask extends StatelessWidget {
                     time: timeController.text == '' ? '00:00' : timeController.text,
                     color: cubit.taskColor ,
                 );
+
+                titleController.text = '';
+                bodyController.text = '';
+                timeController.text = '';
+                dateController.text = '';
             },
           ),
           floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
           bottomNavigationBar: Container(
             alignment: AlignmentDirectional.topCenter,
             padding: EdgeInsets.all(20),
-            height: 140,
+            height: 120,
             decoration: BoxDecoration(
               color:cubit.isDark? Colors.grey.withOpacity(.15) : Colors.white,
               boxShadow: [

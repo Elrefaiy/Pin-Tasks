@@ -29,13 +29,13 @@ Widget defaultInputField({
           },
           style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 16),
           readOnly: readOnly,
-          cursorColor:Colors.amber[700],
+          cursorColor:Colors.grey,
           cursorHeight: 20,
           decoration: InputDecoration(
             border: OutlineInputBorder(
               borderSide: BorderSide.none
             ),
-            suffixIcon: Icon(preIcon, color: Colors.amber[700]),
+            suffixIcon: Icon(preIcon, color: Colors.grey[600]),
             hintText: title,
             hintStyle: TextStyle(color: Colors.grey),
           ),
@@ -218,7 +218,10 @@ Widget taskItem({
   ),
 );
 
-Widget taskListBuilder({List<Map> tasks, bool inTrash = false}) => ConditionalBuilder(
+Widget taskListBuilder({
+  List<Map> tasks,
+  bool inTrash = false,
+}) => ConditionalBuilder(
       condition: tasks.length > 0,
       builder: (context) => Padding(
         padding: const EdgeInsets.all(10.0),
@@ -255,11 +258,14 @@ Widget taskListBuilder({List<Map> tasks, bool inTrash = false}) => ConditionalBu
       ),
     );
 
-Widget homeTaskItem({context, Map item,}) => Container(
+Widget homeTaskItem({
+  context,
+  Map item,
+}) => Container(
   padding: EdgeInsets.all(10),
   width: 290,
   decoration: BoxDecoration(
-    color: HexColor(item['color']).withOpacity(.3),
+    color: HexColor(item['color']).withOpacity(.6),
     border: Border(
       left: BorderSide(
         color: HexColor(item['color']),
@@ -275,9 +281,7 @@ Widget homeTaskItem({context, Map item,}) => Container(
           Expanded(
             child: Text(
               item['title'],
-              style: TextStyle(
-                fontSize: 18,
-              ),
+              style: Theme.of(context).textTheme.headline1.copyWith(fontSize: 18),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
@@ -285,7 +289,13 @@ Widget homeTaskItem({context, Map item,}) => Container(
           SizedBox(width: 10,),
           GestureDetector(
             onTap: (){},
-            child: Icon(Icons.more_horiz, size: 22, color: Colors.grey,),
+            child: Icon(
+              Icons.more_horiz,
+              size: 22,
+              color: AppCubit.get(context).isDark
+                  ? Colors.white
+                  : Colors.black,
+            ),
           ),
         ],
       ),
@@ -293,8 +303,8 @@ Widget homeTaskItem({context, Map item,}) => Container(
       Expanded(
         child: Text(
           item['body'],
-          style: TextStyle(
-            fontSize: 14,
+          style: Theme.of(context).textTheme.bodyText1.copyWith(
+            fontSize: 16,
           ),
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
@@ -303,32 +313,56 @@ Widget homeTaskItem({context, Map item,}) => Container(
       SizedBox(height: 8,),
       Container(
         width: double.infinity,
-        height: 1,
-        color: Colors.grey,
+        height: 1.3,
+        color: HexColor(item['color'],),
       ),
-      SizedBox(height: 8,),
+      SizedBox(
+        height: 8,
+      ),
       Row(
         children: [
           Container(
             width: 120,
             height: 30,
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.blue, width: 2),
+              border: Border.all(
+                color: item['currentStatus'] == 'In Progress'
+                    ? Colors.green
+                    : item['currentStatus'] == 'Scheduled'
+                    ? Colors.yellow
+                    : Colors.red,
+                width: 2,
+              ),
               borderRadius: BorderRadius.circular(10)
             ),
             child: Center(
               child: Text(
-                'IN PROGRESS',
-                style: TextStyle(fontSize: 14),
+                item['currentStatus'].toString().toUpperCase(),
+                style: Theme.of(context).textTheme.bodyText1.copyWith(
+                  fontSize: 15,
+                  color: item['currentStatus'] == 'In Progress'
+                      ? Colors.green
+                      : item['currentStatus'] == 'Scheduled'
+                      ? Colors.yellow
+                      : Colors.red,
+                ),
               ),
             ),
           ),
           Spacer(),
-          Icon(Icons.access_time, size: 18,),
+          Icon(
+            Icons.access_time,
+            size: 16,
+            color: AppCubit.get(context).isDark
+                ? Colors.white
+                : Colors.black,
+          ),
           SizedBox(width: 5,),
           Text(
             item['time'],
-            style: TextStyle(fontSize: 16),
+            style: Theme.of(context).textTheme.bodyText1.copyWith(
+              fontSize: 14,
+            ),
           ),
         ],
       ),
@@ -339,8 +373,13 @@ Widget homeTaskItem({context, Map item,}) => Container(
 Widget homeTaskListBuilder({@required List<Map> tasks}) => ListView.separated(
   scrollDirection: Axis.horizontal,
   physics: BouncingScrollPhysics(),
-  itemBuilder: (context, index) => homeTaskItem(item: tasks[index]),
-  separatorBuilder: (context, index) => SizedBox(width: 10,),
+  itemBuilder: (context, index) => homeTaskItem(
+    item: tasks[index],
+    context: context,
+  ),
+  separatorBuilder: (context, index) => SizedBox(
+    width: 10,
+  ),
   itemCount: tasks.length,
 );
 

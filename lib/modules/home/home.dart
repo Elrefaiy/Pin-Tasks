@@ -1,6 +1,6 @@
-import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:todo/shared/components/components.dart';
 import 'package:todo/shared/cubit/cubit.dart';
 import 'package:todo/shared/cubit/states.dart';
@@ -14,8 +14,18 @@ class HomeScreen extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state){
         var newTasks = AppCubit.get(context).newTasks;
-        var archivedTasks = AppCubit.get(context).archivedTasks;
-        var doneTasks = AppCubit.get(context).trash;
+        List<Map<dynamic,dynamic>> inProgress = [];
+        List<Map<dynamic,dynamic>> scheduled = [];
+        List<Map<dynamic,dynamic>> missed = [];
+
+        newTasks.forEach((element) {
+          if(element['currentStatus'] == 'In Progress')
+            inProgress.add(element);
+          else if(element['currentStatus'] == 'Scheduled')
+            scheduled.add(element);
+          else
+            missed.add(element);
+        });
 
         return SingleChildScrollView(
           child: Padding(
@@ -35,81 +45,69 @@ You have ${AppCubit.get(context).newTasks.length.toString()} tasks due today.'''
                       ),
                     ),
                     SizedBox(width: 10,),
-                    Icon(Icons.grid_view, color: Colors.blue, size: 80,)
+                    LottieBuilder.asset('assets/images/eaNo0izFfS.json'),
                   ],
-                ),
-                SizedBox(
-                  height: 20,
                 ),
 
                 Row(
                   children: [
+                    CircleAvatar(
+                      radius: 5,
+                      backgroundColor: Colors.lightGreen,
+                    ),
                     Text(
-                      'To Do Tasks',
+                      ' In Progress',
                       style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 17),
-                    ),
-                    Spacer(),
-                    Text(
-                      'Expand All',
-                      style: TextStyle(color: Colors.grey, fontSize: 14),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 5,),
-                Container(height: 130, child: homeTaskListBuilder(tasks: newTasks)),
-                SizedBox(
-                  height: 15,
-                ),
-
-                Row(
-                  children: [
-                    Text(
-                      'Done Tasks',
-                      style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 17),
-                    ),
-                    Spacer(),
-                    Text(
-                      'Expand All',
-                      style: TextStyle(color: Colors.grey, fontSize: 14),
                     ),
                   ],
                 ),
                 SizedBox(height: 5,),
                 Container(
                   height: 130,
-                  child: ConditionalBuilder(
-                    condition: AppCubit.get(context).trash.isNotEmpty,
-                    builder: (context) => homeTaskListBuilder(tasks: doneTasks),
-                    fallback: (context) => Center(child: Icon(Icons.info_outline, size: 30,),),
-                  ),
+                  child: homeTaskListBuilder(tasks: scheduled),
                 ),
                 SizedBox(
-                  height: 15,
+                  height: 10,
                 ),
 
                 Row(
                   children: [
-                    Text(
-                      'Archived Tasks',
-                      style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 17),
+                    CircleAvatar(
+                      radius: 5,
+                      backgroundColor: Colors.yellow.shade600,
                     ),
-                    Spacer(),
                     Text(
-                      'Expand All',
-                      style: TextStyle(color: Colors.grey, fontSize: 14),
+                      ' Scheduled',
+                      style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 17),
                     ),
                   ],
                 ),
                 SizedBox(height: 5,),
                 Container(
-                  height: 130,
-                  child:ConditionalBuilder(
-                    condition: AppCubit.get(context).archivedTasks.isNotEmpty,
-                    builder: (context) => homeTaskListBuilder(tasks: archivedTasks),
-                    fallback: (context) => Center(child: Icon(Icons.info_outline, size: 30,),),
-                  ),
+                  height:130,
+                  child: homeTaskListBuilder(tasks: scheduled),
+                ),
+                SizedBox(
+                  height: 10,
                 ),
 
+                Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 5,
+                      backgroundColor: Colors.redAccent,
+                    ),
+                    Text(
+                      ' Missed Deadline',
+                      style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 17),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 5,),
+                Container(
+                  height:130,
+                  child: homeTaskListBuilder(tasks: scheduled),
+                ),
               ],
             ),
           ),
