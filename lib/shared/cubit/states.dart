@@ -18,6 +18,8 @@ class ChangeBottomSheetState extends AppStates{}
 
 class UpdateDataState extends AppStates{}
 
+class UpdateDataCurrentState extends AppStates{}
+
 class DeleteDataState extends AppStates{}
 
 class ChangeModeState extends AppStates{}

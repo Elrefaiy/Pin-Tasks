@@ -13,6 +13,8 @@ class AppCubit extends Cubit<AppStates> {
 
   static AppCubit get(context) => BlocProvider.of(context);
 
+  var scaffoldKey = GlobalKey<ScaffoldState>();
+
   int currentIndex = 0;
   Database database;
 
@@ -85,7 +87,7 @@ class AppCubit extends Cubit<AppStates> {
         print('database created');
         database
             .execute(
-                'CREATE TABLE tasks (id INTEGER PRIMARY KEY, title TEXT, body TEXT,date TEXT, time TEXT, color TEXT, status TEXT, currentStatus TEXT)')
+                'CREATE TABLE tasks (id INTEGER PRIMARY KEY, title TEXT, body TEXT,date TEXT, startTime TEXT, deadline Text, color TEXT, status TEXT, currentStatus TEXT, creationTime Text)')
             .then((value) {
           print('table created');
         }).catchError((error) {
@@ -106,13 +108,15 @@ class AppCubit extends Cubit<AppStates> {
       { @required String title,
         @required String body,
         @required String date,
-        @required String time,
+        @required String startTime,
+        @required String deadline,
         @required String color,
-        String status}) async {
+        @required String creationTime,
+      }) async {
     await database.transaction((txn) {
       txn
           .rawInsert(
-              'INSERT INTO tasks (title, body, date, time, color, status, currentStatus) VALUES ("$title","$body", "$date", "$time", "$color", "new", "Scheduled")')
+              'INSERT INTO tasks (title, body, date, startTime, deadline, color, status, currentStatus, creationTime) VALUES ("$title","$body", "$date", "$startTime", "$deadline","$color", "new", "Scheduled", "$creationTime")')
           .then((value) {
         print('$value Inserted Successfully');
         emit(InsertToDatabaseState());
@@ -138,10 +142,7 @@ class AppCubit extends Cubit<AppStates> {
       }else{
           trash.add(element);
         }
-
-        print(element);
       });
-
       emit(GetDataState());
     });
   }
@@ -157,27 +158,14 @@ class AppCubit extends Cubit<AppStates> {
     });
   }
 
-  // void updateTaskStatus({
-  //   @required String status,
-  //   @required int id
-  // }) async {
-  //   await database.rawUpdate('UPDATE tasks SET status = ? WHERE id = ?',
-  //       ['$status', id]).then((value) {
-  //     getData(database);
-  //     emit(UpdateDataState());
-  //   });
-  // }
-  //
-  // void updateTask({
-  //   @required String status,
-  //   @required int id
-  // }) async {
-  //   await database.rawUpdate('UPDATE tasks SET status = ? WHERE id = ?',
-  //       ['$status', id]).then((value) {
-  //     getData(database);
-  //     emit(UpdateDataState());
-  //   });
-  // }
+  void updateTaskCurrentStatus({
+    @required String currentStatus,
+    @required int id
+  }) async {
+    await database.rawUpdate('UPDATE tasks SET currentStatus = ? WHERE id = ?',
+        ['$currentStatus', id]).then((value) {
+    });
+  }
 
   void deleteData({@required int id}) async {
     await database

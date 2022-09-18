@@ -13,7 +13,7 @@ ThemeData lightTheme() => ThemeData(
     elevation: 0,
     titleSpacing: 0,
     iconTheme: IconThemeData(
-    color: Colors.grey.withOpacity(.5),
+    color: Colors.grey.withOpacity(.8),
   ),
   ),
   textTheme: TextTheme(
@@ -21,7 +21,7 @@ ThemeData lightTheme() => ThemeData(
       color: Colors.black,
       fontSize: 24,
       fontFamily: 'Glory',
-      fontWeight: FontWeight.w900,
+      fontWeight: FontWeight.w800,
     ),
     bodyText1: TextStyle(
       fontFamily: 'Glory',
@@ -51,7 +51,7 @@ ThemeData darkTheme() => ThemeData(
       color: Colors.white,
       fontSize: 24,
       fontFamily: 'Glory',
-      fontWeight: FontWeight.w700,
+      fontWeight: FontWeight.w800,
     ),
     bodyText1: TextStyle(
       fontFamily: 'Glory',
@@ -60,3 +60,13 @@ ThemeData darkTheme() => ThemeData(
     ),
   ),
 );
+
+int hourParser(String time) {
+  String hour = time.substring(0, 2);
+  return int.parse(hour);
+}
+
+int minParser(String time) {
+  String min = time.substring(3, 5);
+  return int.parse(min);
+}

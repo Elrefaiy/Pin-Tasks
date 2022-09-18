@@ -24,6 +24,7 @@ class Home extends StatelessWidget {
               style: Theme.of(context).textTheme.headline1,
             ),
           ),
+          key: AppCubit.get(context).scaffoldKey,
           drawer: AppDrawer(),
           body: cubit.screen[cubit.currentIndex],
           bottomNavigationBar: Container(

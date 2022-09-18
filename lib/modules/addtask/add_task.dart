@@ -9,6 +9,7 @@ import 'package:todo/shared/cubit/states.dart';
 var titleController = TextEditingController();
 var bodyController = TextEditingController();
 var timeController = TextEditingController();
+var deadlineController = TextEditingController();
 var dateController = TextEditingController();
 
 class AddTask extends StatelessWidget {
@@ -28,9 +29,12 @@ class AddTask extends StatelessWidget {
           alignment: AlignmentDirectional.center,
           children: [
             Container(
-              color: HexColor(color),
               width: 60,
               height: 60,
+              decoration: BoxDecoration(
+                color: HexColor(color),
+                borderRadius: BorderRadius.circular(10)
+              ),
             ),
             if(index == AppCubit.get(context).selectedColor)
               Icon(Icons.done, size: 30, color: Colors.black.withOpacity(0.7),)
@@ -51,74 +55,147 @@ class AddTask extends StatelessWidget {
           ),
           body: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Form(
                 key: formKey,
                 child: Column(
                   children: [
                     Container(
-                      height: 40,
+                      height: 70,
                       child: TextFormField(
                         cursorColor: Colors.blue,
-                        style: Theme.of(context).textTheme.headline1.copyWith(fontSize: 20, fontWeight: FontWeight.w700),
+                        style: Theme.of(context).textTheme.headline1.copyWith(
+                          fontSize: 24,
+                        ),
                         controller: titleController,
-                        maxLines: 1,
                         keyboardType: TextInputType.text,
+                        maxLines: 1,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderSide: BorderSide.none,
                           ),
                           hintText: 'Title ..',
-                          hintStyle: TextStyle(color: Colors.grey[600], fontSize: 22),
+                          hintStyle: TextStyle(
+                            color: Colors.grey[600],
+                            fontSize: 24,
+                          ),
                         ),
                       ),
                     ),
                     Container(
                       child: TextFormField(
                         cursorColor: Colors.blue,
-                        style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 14),
+                        style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 18),
                         controller: bodyController,
                         keyboardType: TextInputType.multiline,
-                        maxLines: 18,
+                        maxLines: 15,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderSide: BorderSide.none,
                           ),
                           hintText: 'Write Your Task ..',
-                          hintStyle: TextStyle(color: Colors.grey, fontSize: 16),
+                          hintStyle: TextStyle(
+                            color: Colors.grey
+                            , fontSize: 18,
+                          ),
                         ),
                       ),
                     ),
 
-                    defaultInputField(
-                        context: context,
-                        title: 'Time',
-                        preIcon: Icons.timer_outlined,
-                        controller: timeController,
-                        type: TextInputType.number,
-                        readOnly: true,
-                        onTap: () {
-                          showTimePicker(
-                            context: context,
-                            builder: (BuildContext context, Widget child) {
-                              return Theme(
-                                data: ThemeData.light().copyWith(
-                                  timePickerTheme: TimePickerThemeData(backgroundColor: Colors.white),
-                                  primaryColor: Colors.blue,
-                                  buttonTheme: ButtonThemeData(
-                                      textTheme: ButtonTextTheme.primary
-                                  ),
-                                  colorScheme: ColorScheme.light(primary:Colors.blue).copyWith(secondary: Colors.blue),
-                                ),
-                                child: child,
-                              );
-                            },
-                            initialTime: TimeOfDay.now(),
-                          ).then((value) {
-                            timeController.text = TimeOfDay(hour: value.hour, minute: value.minute)
-                                .format(context);
-                          });
-                        }),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: defaultInputField(
+                              context: context,
+                              title: 'Start Time',
+                              preIcon: Icons.access_time_rounded,
+                              controller: timeController,
+                              type: TextInputType.number,
+                              readOnly: true,
+                              onTap: () {
+                                showTimePicker(
+                                  context: context,
+                                  builder: (
+                                      BuildContext context,
+                                      Widget child,
+                                      ) {
+                                    return Theme(
+                                      data: ThemeData.light().copyWith(
+                                        timePickerTheme: TimePickerThemeData(
+                                          backgroundColor: AppCubit.get(context).isDark
+                                              ? Colors.grey[700]
+                                              : Colors.grey[100],
+                                        ),
+                                        primaryColor: Colors.blue,
+                                        buttonTheme: ButtonThemeData(
+                                          textTheme: ButtonTextTheme.primary,
+                                        ),
+                                        colorScheme: ColorScheme.light(
+                                          primary:Colors.blue,
+                                        ).copyWith(
+                                          secondary: Colors.blue,
+                                        ),
+                                      ),
+                                      child: child,
+                                    );
+                                  },
+                                  initialTime: TimeOfDay.now(),
+                                ).then((value) {
+                                  timeController.text = TimeOfDay(
+                                    hour: value.hour,
+                                    minute: value.minute,
+                                  ).format(context);
+                                });
+                              }),
+                        ),
+                        SizedBox(width: 10,),
+                        Expanded(
+                          child: defaultInputField(
+                              context: context,
+                              title: 'Deadline',
+                              preIcon: Icons.alarm,
+                              controller: deadlineController,
+                              type: TextInputType.number,
+                              readOnly: true,
+                              onTap: () {
+                                showTimePicker(
+                                  context: context,
+                                  builder: (
+                                      BuildContext context,
+                                      Widget child,
+                                      ) {
+                                    return Theme(
+                                      data: ThemeData.light().copyWith(
+                                        timePickerTheme: TimePickerThemeData(
+                                          backgroundColor: AppCubit.get(context).isDark
+                                              ? Colors.grey[700]
+                                              : Colors.grey[100],
+                                        ),
+                                        primaryColor: Colors.blue,
+                                        buttonTheme: ButtonThemeData(
+                                          textTheme: ButtonTextTheme.primary,
+                                        ),
+                                        colorScheme: ColorScheme.light(
+                                          primary:Colors.blue,
+                                        ).copyWith(
+                                          secondary: Colors.blue,
+                                        ),
+                                      ),
+                                      child: child,
+                                    );
+                                  },
+                                  initialTime: TimeOfDay.now(),
+                                ).then((value) {
+                                  deadlineController.text = TimeOfDay(
+                                    hour: value.hour,
+                                    minute: value.minute,
+                                  ).format(context);
+                                });
+                              }),
+                        ),
+                      ],
+                    ),
+
                     defaultInputField(
                         context: context,
                         title: 'Date',
@@ -138,17 +215,18 @@ class AddTask extends StatelessWidget {
                                     surface: Colors.blue,
                                     onSurface: Colors.black,
                                   ),
-                                  dialogBackgroundColor:Colors.white,
+                                  dialogBackgroundColor:AppCubit.get(context).isDark
+                                      ? Colors.grey[700]
+                                      : Colors.grey[100],
                                 ),
                                 child: child,
                               );
                             },
                             initialDate: DateTime.now(),
                             firstDate: DateTime.now(),
-                            lastDate: DateTime.parse('2025-01-01'),
+                            lastDate: DateTime.parse('2040-01-01'),
                           ).then((value) {
-                            dateController.text =
-                                DateFormat.yMMMd().format(value);
+                            dateController.text = value.toString().substring(0,11);
                           });
                         }),
                   ],
@@ -164,16 +242,29 @@ class AddTask extends StatelessWidget {
             ),
             onPressed: () {
                 cubit.insertToDatabase(
-                    title: titleController.text == '' ? 'ToDo!' : titleController.text,
-                    body: bodyController.text == '' ? 'Task ..' : bodyController.text,
-                    date: dateController.text == '' ? DateFormat.yMMMd().format(DateTime.now()) : dateController.text,
-                    time: timeController.text == '' ? '00:00' : timeController.text,
-                    color: cubit.taskColor ,
+                  title: titleController.text == ''
+                      ? 'ToDo!'
+                      : titleController.text,
+                  body: bodyController.text == ''
+                      ? 'Task ..'
+                      : bodyController.text,
+                  date: dateController.text == ''
+                      ? DateTime.now().toString().substring(0,11)
+                      : dateController.text,
+                  startTime: timeController.text == ''
+                      ? '00:00'
+                      : timeController.text,
+                  deadline: deadlineController.text == ''
+                      ? '23:59'
+                      : deadlineController.text,
+                  color: cubit.taskColor ,
+                  creationTime: DateFormat.yMMMd().format(DateTime.now()).toString(),
                 );
 
                 titleController.text = '';
                 bodyController.text = '';
                 timeController.text = '';
+                deadlineController.text = '';
                 dateController.text = '';
             },
           ),
