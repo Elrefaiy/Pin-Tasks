@@ -31,8 +31,8 @@ class TrashScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   LottieBuilder.asset(
-                    'assets/images/walking-ball.json',
-                    width: 200,
+                    'assets/images/cat.json',
+                    width: 300,
                   ),
                   Text(
                     'no task completed yet ...',

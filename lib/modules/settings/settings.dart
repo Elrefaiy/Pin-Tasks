@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:todo/shared/cubit/cubit.dart';
@@ -17,45 +16,10 @@ class SettingsScreen extends StatelessWidget {
         ),
         child: Column(
           children: [
-            LottieBuilder.asset('assets/images/avatar.json',),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: [
-            //     Text(
-            //       'Ahmed Mohamed',
-            //       style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 26),
-            //     ),
-            //     IconButton(
-            //       icon: Icon(
-            //         Icons.edit,
-            //         size: 20,
-            //         color: Colors.grey,
-            //       ),
-            //       onPressed: (){
-            //         AppCubit.get(context).scaffoldKey.currentState.showBottomSheet(
-            //               (context) => Container(
-            //                 padding: EdgeInsets.all(20),
-            //                 height: 120,
-            //                 decoration: BoxDecoration(
-            //                   color: AppCubit.get(context).isDark
-            //                       ? Colors.grey[900]
-            //                       : Colors.grey[100],
-            //                   border: Border(
-            //                     top: BorderSide(width: 3, color: Colors.blue)
-            //                   ),
-            //                 ),
-            //                 child: TextFormField(
-            //                   decoration: InputDecoration(
-            //                     border: OutlineInputBorder(),
-            //                     labelText: 'User Name'
-            //                   ),
-            //                 ),
-            //               ),
-            //         );
-            //       },
-            //     ),
-            //   ],
-            // ),
+            LottieBuilder.asset(
+              'assets/images/avatar-man.json',
+              width: 250,
+            ),
             SizedBox(height: 20,),
             GestureDetector(
               child: Container(
@@ -121,7 +85,7 @@ class SettingsScreen extends StatelessWidget {
                     ),
                     Spacer(),
                     Icon(
-                      Icons.contact_mail_outlined,
+                      Icons.info_outline,
                       color: Colors.grey,
                     ),
                   ],
@@ -252,9 +216,9 @@ class SettingsScreen extends StatelessWidget {
                           exit(0);
                         },
                         child: Text(
-                          'Yes',
+                          'Exit',
                           style: TextStyle(
-                            color: Colors.blue,
+                            color: Colors.red,
                             fontSize: 16,
                             fontFamily: 'Glory',
                           ),

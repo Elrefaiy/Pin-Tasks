@@ -32,17 +32,22 @@ class AppDrawer extends StatelessWidget {
                   ),
                   child: Row(
                     children: [
-                      Icon(
-                        Icons.push_pin_outlined,
-                        color: Colors.blue,
-                        size: 40,
+                      SizedBox(width: 10,),
+                      RotatedBox(
+                        child: Icon(
+                          Icons.push_pin_outlined,
+                          color: Colors.blue,
+                          size: 50,
+                        ),
+                        quarterTurns: 3,
                       ),
+                      SizedBox(width: 5,),
                       Text(
-                        'Pin Tasks',
+                        'Pin Task',
                         style: Theme.of(context)
                             .textTheme
                             .headline1
-                            .copyWith(fontSize: 24, letterSpacing: 1.5),
+                            .copyWith(fontSize: 40, letterSpacing: 1.5),
                       )
                     ],
                   ),
@@ -257,9 +262,9 @@ class AppDrawer extends StatelessWidget {
                               exit(0);
                             },
                             child: Text(
-                              'Yes',
+                              'Exit',
                               style: TextStyle(
-                                color: Colors.blue,
+                                color: Colors.red,
                                 fontSize: 16,
                                 fontFamily: 'Glory',
                               ),
@@ -286,7 +291,7 @@ class AppDrawer extends StatelessWidget {
                   icon: Icons.exit_to_app_rounded,
                   label: 'EXIT',
                 ),
-                SizedBox(height: 140,),
+                SizedBox(height: 170,),
                 drawerItem(
                   onTap: () {
                     showDialog(

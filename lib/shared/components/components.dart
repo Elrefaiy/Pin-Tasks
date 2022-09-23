@@ -404,7 +404,7 @@ Widget drawerMainItem({
           border: Border(
             left: BorderSide(
               color: isSelected ? Colors.blue : Colors.white.withOpacity(0),
-              width: 2,
+              width: 4,
             ),
           ),
         ),
